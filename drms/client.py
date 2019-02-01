@@ -604,10 +604,11 @@ class ExportRequest(object):
                 print('  filename: %s' % di.filename)
             try:
                 urlretrieve(di.url, fpath_tmp)
-            except (HTTPError, URLError):
+            except (HTTPError, URLError) as e:
                 fpath_new = None
                 if verbose:
                     print('  -> Error: Could not download file')
+                raise e
             else:
                 fpath_new = self._next_available_filename(fpath)
                 os.rename(fpath_tmp, fpath_new)
